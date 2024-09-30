@@ -18,7 +18,7 @@ pilots = [
     "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"
 ]
 
-# Points assigned based on ranking
+    # Points assigned based on ranking
 ranking_points = {
     1: 500, 2: 400, 3: 350, 4: 300, 5: 250, 6: 200, 7: 180, 8: 160,
     9: 140, 10: 120, 11: 100, 12: 90, 13: 80, 14: 70, 15: 60, 16: 50,
@@ -27,6 +27,53 @@ ranking_points = {
 
 # Achievements and their respective points
 achievements = {"VR": 200, "PD": 175, "MB": 100, "MU": 150, "VL": -100}
+
+# Função para debugar o código
+def debugger():
+    print("Starting debug mode...\n")
+
+    # Explicação e execução da função select_pilots
+    print("1. A função `select_pilots` permite que o usuário selecione 5 pilotos.\n")
+    selected_pilots = select_pilots()
+    print(f"Pilotos selecionados: {selected_pilots}\n")
+
+    # Explicação e execução da função verify_choice
+    print(
+        "2. A função `verify_choice` verifica se o piloto escolhido está na lista de pilotos disponíveis. Se não estiver, solicita outro input.\n")
+    test_pilot = "P1"
+    verified_pilot = verify_choice(test_pilot)
+    print(f"Piloto verificado: {verified_pilot}\n")
+
+    # Explicação e execução da função generate_ranking
+    print("3. A função `generate_ranking` gera uma classificação aleatória de pilotos.\n")
+    race_results = generate_ranking()
+    enumerate_ranking(race_results)
+    print("Classificação gerada acima.\n")
+
+    # Explicação e execução da função point_checker
+    print(
+        "4. A função `point_checker` calcula os pontos que os pilotos selecionados ganham com base na posição final na corrida.\n")
+    captain = selected_pilots[0]
+    points = point_checker(selected_pilots, race_results, captain)
+    print(f"Total de pontos calculados: {points}\n")
+
+    # Explicação e execução da função achivments_simu
+    print("5. A função `achivments_simu` gera aleatoriamente quais pilotos ganharam conquistas durante a corrida.\n")
+    achievements_results = achivments_simu()
+    for key in achievements_results:
+        print(f"{key} recebeu {achievements_results[key]} pontos de conquista.")
+    print()
+
+    # Explicação e execução da função achivments_points
+    print("6. A função `achivments_points` soma os pontos ganhos pelos pilotos selecionados nas conquistas.\n")
+    achievements_points_total = achivments_points(achievements_results, selected_pilots)
+    print(f"Total de pontos de conquistas: {achievements_points_total}\n")
+
+    # Explicação e execução da função determine_rank
+    print("7. A função `determine_rank` determina o ranking do jogador com base nos pontos totais acumulados.\n")
+    global_points = 6500
+    rank, point_deduction = determine_rank(global_points)
+    print(f"Com {global_points} pontos você estaria no {rank} e perderia {point_deduction} antes de entrar em qualquer partida")
 
 # Function to clear the console screen
 def clear():
@@ -110,7 +157,11 @@ def game():
     global_points = 0
     print(logo)
     print("Welcome to the E-pit simulation")
-    input("Press any key to start a simulation: ")
+    way = input("Press any key to start a simulation or type debugger: ")
+    if way =="debugger":
+        debugger()
+        input("Press any key to start a simulation: ")
+        clear()
 
     while True:
         rank, point_deduction = determine_rank(global_points)
